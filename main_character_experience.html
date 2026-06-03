@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Main Character</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#8BAF8B;--sage-light:#B8D4B8;--amber:#D4956A;--amber-light:#E8B896;
+  --sky:#7BA7C4;--sky-light:#A8C8DC;--lavender:#9B8EC4;--cream:#F5EDD8;
+  --dark:#1A1A2E;--text-warm:#3D3228;--muted:#8A7A6A;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#0D1117;
+  color:#F5EDD8;
+  overflow-x:hidden;
+}
+
+/* PARTICLES */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;padding:2rem;
+  background:linear-gradient(180deg,#0D1020 0%,#1A1830 40%,#2A1F3D 70%,#1A2A1A 100%);
+}
+.hero-meadow{
+  position:absolute;bottom:0;left:0;right:0;height:45%;
+  background:linear-gradient(180deg,transparent 0%,#1A3A1A 50%,#0F2210 100%);
+}
+.hero-glow{
+  position:absolute;top:30%;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(212,149,106,0.15) 0%,transparent 70%);
+  animation:glow-pulse 4s ease-in-out infinite;
+}
+@keyframes glow-pulse{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+.hero-moon{
+  position:absolute;top:15%;right:20%;width:80px;height:80px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#FFF8E7,#D4B896);
+  box-shadow:0 0 60px rgba(212,184,150,0.4),0 0 120px rgba(212,184,150,0.15);
+  animation:moon-float 6s ease-in-out infinite;
+}
+@keyframes moon-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+
+.chapter-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+  border-radius:100px;padding:8px 20px;font-size:12px;letter-spacing:0.15em;
+  text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:2rem;
+  animation:fade-up 1s ease both;
+}
+@keyframes fade-up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-title{
+  font-family:'Lora',serif;
+  font-size:clamp(2.8rem,7vw,6rem);
+  line-height:1.1;font-weight:500;
+  color:#F5EDD8;margin-bottom:1.5rem;
+  animation:fade-up 1s ease 0.2s both;
+  max-width:900px;
+}
+.hero-title em{color:var(--sage-light);font-style:italic}
+.hero-sub{
+  font-size:1.1rem;color:rgba(245,237,216,0.6);max-width:480px;
+  line-height:1.7;margin-bottom:3rem;
+  animation:fade-up 1s ease 0.4s both;
+}
+.hero-scroll-cta{
+  animation:fade-up 1s ease 0.6s both;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.begin-btn{
+  background:rgba(139,175,139,0.2);border:1px solid rgba(139,175,139,0.5);
+  color:var(--sage-light);padding:16px 40px;border-radius:100px;
+  font-size:1rem;letter-spacing:0.05em;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all 0.3s;
+}
+.begin-btn:hover{background:rgba(139,175,139,0.35);transform:scale(1.04)}
+.scroll-hint{font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* SECTION BASE */
+.section{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;position:relative;padding:4rem 2rem;
+  overflow:hidden;
+}
+
+/* QUESTIONS */
+#questions{background:linear-gradient(180deg,#1A2A1A 0%,#1E2820 50%,#1A1F2E 100%)}
+.q-forest{
+  position:absolute;bottom:0;left:0;right:0;height:35%;
+  background:linear-gradient(180deg,transparent,#0A1A0A);
+  opacity:0.7;
+}
+.q-heading{
+  font-family:'Lora',serif;font-size:clamp(1.8rem,4vw,3rem);
+  text-align:center;margin-bottom:1rem;color:#F5EDD8;
+  font-style:italic;font-weight:400;
+}
+.q-sub{text-align:center;color:rgba(245,237,216,0.5);margin-bottom:3rem;font-size:0.95rem}
+
+.questions-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:760px;width:100%;position:relative;z-index:1}
+@media(max-width:600px){.questions-grid{grid-template-columns:1fr}}
+
+.q-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:1.25rem 1.5rem;transition:all 0.3s;cursor:default;
+}
+.q-card.active{
+  background:rgba(139,175,139,0.1);border-color:rgba(139,175,139,0.4);
+}
+.q-label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--sage);margin-bottom:8px}
+.q-text{font-size:0.9rem;color:rgba(245,237,216,0.7);margin-bottom:12px;line-height:1.5}
+.q-input{
+  width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  border-radius:10px;padding:10px 14px;color:#F5EDD8;font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;outline:none;resize:none;transition:border-color 0.3s;
+}
+.q-input:focus{border-color:rgba(139,175,139,0.5)}
+.q-input::placeholder{color:rgba(245,237,216,0.25)}
+
+.analyze-btn{
+  margin-top:2rem;background:linear-gradient(135deg,var(--sage),var(--amber));
+  border:none;border-radius:100px;padding:18px 50px;
+  color:#1A1A1A;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;
+  cursor:pointer;transition:all 0.3s;letter-spacing:0.03em;position:relative;z-index:1;
+}
+.analyze-btn:hover{transform:scale(1.04);box-shadow:0 0 40px rgba(139,175,139,0.4)}
+.analyze-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* JOURNEY */
+#journey{background:linear-gradient(180deg,#1A1F2E 0%,#1E1828 50%,#20161A 100%);padding:5rem 2rem}
+.journey-title{
+  font-family:'Lora',serif;font-size:clamp(1.8rem,4vw,2.8rem);
+  text-align:center;margin-bottom:1rem;font-style:italic;
+}
+.journey-sub{text-align:center;color:rgba(245,237,216,0.5);margin-bottom:4rem;font-size:0.95rem;max-width:500px}
+
+.journey-chapters{display:flex;flex-direction:column;gap:0;max-width:700px;width:100%;position:relative}
+.journey-line{
+  position:absolute;left:28px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0.15) 80%,transparent);
+}
+.chapter-item{
+  display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem 1.5rem 1.5rem 0;
+  opacity:0;transform:translateX(-20px);transition:all 0.6s ease;
+}
+.chapter-item.visible{opacity:1;transform:translateX(0)}
+.chapter-dot{
+  width:56px;height:56px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  border:1px solid rgba(255,255,255,0.15);position:relative;z-index:1;
+  background:#1A1A2E;
+}
+.chapter-body{padding-top:10px}
+.chapter-name{font-family:'Lora',serif;font-size:1.1rem;margin-bottom:4px;font-style:italic}
+.chapter-desc{font-size:0.85rem;color:rgba(245,237,216,0.5);line-height:1.6}
+
+/* REVEAL */
+#reveal{
+  background:linear-gradient(180deg,#20161A 0%,#1A1020 100%);
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:4rem 2rem;
+}
+.reveal-loading{text-align:center;padding:4rem}
+.loading-text{
+  font-family:'Lora',serif;font-size:1.5rem;font-style:italic;
+  color:rgba(245,237,216,0.6);margin-bottom:1rem;
+}
+.loading-bar{
+  width:200px;height:2px;background:rgba(255,255,255,0.1);
+  border-radius:100px;margin:0 auto;overflow:hidden;
+}
+.loading-progress{
+  height:100%;background:linear-gradient(90deg,var(--sage),var(--amber));
+  border-radius:100px;animation:load-anim 2.5s ease-in-out;
+}
+@keyframes load-anim{from{width:0}to{width:100%}}
+
+.character-profile{
+  max-width:800px;width:100%;
+  animation:reveal-in 1s ease both;
+}
+@keyframes reveal-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+
+.profile-header{
+  text-align:center;margin-bottom:3rem;
+}
+.profile-chapter-badge{
+  display:inline-block;background:rgba(155,142,196,0.2);border:1px solid rgba(155,142,196,0.4);
+  border-radius:100px;padding:6px 18px;font-size:11px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--lavender);margin-bottom:1.5rem;
+}
+.profile-name{
+  font-family:'Lora',serif;font-size:clamp(2rem,5vw,3.5rem);
+  font-style:italic;margin-bottom:0.5rem;
+}
+.profile-tagline{color:rgba(245,237,216,0.5);font-size:1rem;font-style:italic;max-width:500px;margin:0 auto}
+
+.profile-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:2rem;
+}
+@media(max-width:600px){.profile-grid{grid-template-columns:1fr 1fr}}
+
+.profile-stat{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:1.25rem;
+  transition:transform 0.2s;
+}
+.profile-stat:hover{transform:translateY(-3px)}
+.stat-icon{font-size:1.5rem;margin-bottom:8px}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:rgba(245,237,216,0.4);margin-bottom:4px}
+.stat-value{font-family:'Lora',serif;font-size:1rem;color:#F5EDD8;font-style:italic}
+
+.story-theme{
+  background:linear-gradient(135deg,rgba(139,175,139,0.1),rgba(155,142,196,0.1));
+  border:1px solid rgba(255,255,255,0.1);border-radius:20px;
+  padding:2rem;text-align:center;margin-bottom:2rem;
+}
+.story-label{font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(245,237,216,0.4);margin-bottom:8px}
+.story-value{font-family:'Lora',serif;font-size:1.4rem;font-style:italic;color:var(--amber-light)}
+
+.card-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.action-btn{
+  padding:12px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;cursor:pointer;transition:all 0.3s;border:none;
+}
+.primary-action{
+  background:linear-gradient(135deg,var(--sage),var(--amber));color:#1A1A1A;font-weight:500;
+}
+.primary-action:hover{transform:scale(1.04);box-shadow:0 0 30px rgba(139,175,139,0.4)}
+.secondary-action{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:rgba(245,237,216,0.8);
+}
+.secondary-action:hover{background:rgba(255,255,255,0.1)}
+
+.narrative-section{
+  background:rgba(255,255,255,0.03);border-left:2px solid rgba(212,149,106,0.4);
+  border-radius:0 12px 12px 0;padding:1.5rem;margin:1.5rem 0;
+}
+.narrative-label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--amber);margin-bottom:10px}
+.narrative-text{font-size:0.92rem;color:rgba(245,237,216,0.7);line-height:1.75;font-style:italic}
+
+.loading-dots{display:inline-flex;gap:6px;margin-top:1rem}
+.loading-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:dot-pulse 1.4s ease infinite}
+.loading-dot:nth-child(2){animation-delay:0.2s}
+.loading-dot:nth-child(3){animation-delay:0.4s}
+@keyframes dot-pulse{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+
+.hidden{display:none!important}
+.section-fade{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.section-fade.visible{opacity:1;transform:translateY(0)}
+
+/* FLOATING PARTICLES */
+.particle{
+  position:fixed;width:3px;height:3px;border-radius:50%;
+  background:rgba(255,255,255,0.4);pointer-events:none;z-index:0;
+  animation:particle-float linear infinite;
+}
+@keyframes particle-float{
+  0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+  10%{opacity:0.6}
+  90%{opacity:0.3}
+  100%{transform:translateY(-10vh) rotate(720deg);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-moon"></div>
+  <div class="hero-meadow"></div>
+  
+  <div style="position:relative;z-index:2">
+    <div class="chapter-badge">✦ &nbsp; A self-discovery experience &nbsp; ✦</div>
+    <h1 class="hero-title">
+      You are the<br><em>main character</em><br>of your story.
+    </h1>
+    <p class="hero-sub">Every great journey begins with knowing where you are. What chapter are you living right now?</p>
+    <div class="hero-scroll-cta">
+      <button class="begin-btn" onclick="smoothTo('questions')">Begin your journey ↓</button>
+      <span class="scroll-hint">↓ scroll to explore</span>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section id="questions" class="section section-fade">
+  <div class="q-forest"></div>
+  <div style="position:relative;z-index:1;width:100%;max-width:800px;display:flex;flex-direction:column;align-items:center">
+    <h2 class="q-heading">Tell me about your chapter</h2>
+    <p class="q-sub">Answer honestly. There are no wrong answers — only your truth.</p>
+    
+    <div class="questions-grid">
+      <div class="q-card" data-q="0">
+        <div class="q-label">🌟 Main Quest</div>
+        <p class="q-text">What is your biggest goal right now?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. Become a UX designer..." id="q0"></textarea>
+      </div>
+      <div class="q-card" data-q="1">
+        <div class="q-label">⚔️ Current Villain</div>
+        <p class="q-text">What challenge is holding you back?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. Self-doubt, procrastination..." id="q1"></textarea>
+      </div>
+      <div class="q-card" data-q="2">
+        <div class="q-label">⚡ Special Ability</div>
+        <p class="q-text">What are you naturally good at?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. Creative thinking, empathy..." id="q2"></textarea>
+      </div>
+      <div class="q-card" data-q="3">
+        <div class="q-label">🔥 Motivation</div>
+        <p class="q-text">What drives you to keep going?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. I want to prove myself..." id="q3"></textarea>
+      </div>
+      <div class="q-card" data-q="4">
+        <div class="q-label">📖 Current Chapter</div>
+        <p class="q-text">How would you describe where you are in life?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. Building, discovering myself..." id="q4"></textarea>
+      </div>
+      <div class="q-card" data-q="5">
+        <div class="q-label">🌱 Growing Into</div>
+        <p class="q-text">Who are you becoming?</p>
+        <textarea class="q-input" rows="2" placeholder="e.g. A confident creator..." id="q5"></textarea>
+      </div>
+    </div>
+    
+    <div style="margin-top:1rem;width:100%;max-width:760px">
+      <div class="q-card" style="grid-column:span 2">
+        <div class="q-label">✨ Your Name</div>
+        <p class="q-text">How shall your character be known?</p>
+        <input class="q-input" type="text" placeholder="Your first name..." id="q-name" style="height:44px">
+      </div>
+    </div>
+    
+    <button class="analyze-btn" id="analyze-btn" onclick="startAnalysis()">
+      Reveal my character arc →
+    </button>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey" class="section-fade" style="display:flex;flex-direction:column;align-items:center;padding:5rem 2rem">
+  <h2 class="journey-title">The chapters of growth</h2>
+  <p class="journey-sub">Every person walks through these landscapes — each one transforming you.</p>
+  
+  <div class="journey-chapters">
+    <div class="journey-line"></div>
+    <div class="chapter-item">
+      <div class="chapter-dot" style="background:radial-gradient(circle,#2A3D2A,#1A2A1A);border-color:rgba(139,175,139,0.3)">🌿</div>
+      <div class="chapter-body">
+        <div class="chapter-name">The Meadow — Awakening</div>
+        <div class="chapter-desc">You are just beginning. The world feels wide and full of possibility. You are learning who you are.</div>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-dot" style="background:radial-gradient(circle,#1A2A1A,#0F1A0F);border-color:rgba(100,140,100,0.3)">🌲</div>
+      <div class="chapter-body">
+        <div class="chapter-name">The Forest — The Builder Arc</div>
+        <div class="chapter-desc">You are building skills, habits, and foundations. The path isn't always clear, but you keep moving.</div>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-dot" style="background:radial-gradient(circle,#2A2020,#1A1515);border-color:rgba(212,149,106,0.3)">🏔️</div>
+      <div class="chapter-body">
+        <div class="chapter-name">The Hills — The Proving Ground</div>
+        <div class="chapter-desc">You are being tested. This is where character is forged. The struggle is the story.</div>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-dot" style="background:radial-gradient(circle,#1A1A2E,#101020);border-color:rgba(123,167,196,0.3)">⛰️</div>
+      <div class="chapter-body">
+        <div class="chapter-name">The Peak — Clarity</div>
+        <div class="chapter-desc">After the climb, you gain perspective. You can see where you've been and where you're going.</div>
+      </div>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-dot" style="background:radial-gradient(circle,#2D1A0A,#1A1005);border-color:rgba(212,149,106,0.4)">🌅</div>
+      <div class="chapter-body">
+        <div class="chapter-name">The Sunset — Becoming</div>
+        <div class="chapter-desc">You have arrived — not at an end, but at who you were always becoming.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVEAL -->
+<section id="reveal">
+  <div id="reveal-loading" class="reveal-loading hidden">
+    <p class="loading-text">Weaving your story...</p>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+    <div class="loading-dots">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+  </div>
+  
+  <div id="reveal-empty" style="text-align:center;padding:4rem">
+    <p style="font-family:'Lora',serif;font-size:1.5rem;font-style:italic;color:rgba(245,237,216,0.4)">
+      Your character profile will appear here<br>after you answer the questions above.
+    </p>
+    <p style="color:rgba(245,237,216,0.25);font-size:0.9rem;margin-top:1rem">↑ scroll up to begin</p>
+  </div>
+  
+  <div id="reveal-content" class="character-profile hidden"></div>
+</section>
+
+<script>
+// Particles
+function createParticles(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<25;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const sz=Math.random()*3+1;
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      width:${sz}px;height:${sz}px;
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${-Math.random()*15}s;
+      opacity:${0.2+Math.random()*0.4};
+    `;
+    c.appendChild(p);
+  }
+}
+createParticles();
+
+// Smooth scroll
+function smoothTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// Intersection observer for fade-ins
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      if(e.target.classList.contains('chapter-item')){
+        // stagger handled by index
+      }
+    }
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.section-fade').forEach(el=>obs.observe(el));
+
+// Chapter items stagger
+const chapterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const items=document.querySelectorAll('.chapter-item');
+      items.forEach((item,i)=>{
+        setTimeout(()=>item.classList.add('visible'),i*150);
+      });
+      chapterObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+chapterObs.observe(document.getElementById('journey'));
+
+// Input highlight
+document.querySelectorAll('.q-input').forEach(input=>{
+  input.addEventListener('focus',()=>{
+    input.closest('.q-card').classList.add('active');
+  });
+  input.addEventListener('blur',()=>{
+    input.closest('.q-card').classList.remove('active');
+  });
+});
+
+async function startAnalysis(){
+  const fields=[0,1,2,3,4,5].map(i=>document.getElementById('q'+i).value.trim());
+  const name=document.getElementById('q-name').value.trim()||'The Wanderer';
+  
+  if(fields.filter(f=>f.length>0).length<3){
+    alert('Please answer at least 3 questions to reveal your character arc.');
+    return;
+  }
+
+  const btn=document.getElementById('analyze-btn');
+  btn.disabled=true;btn.textContent='Weaving your story...';
+
+  document.getElementById('reveal-empty').classList.add('hidden');
+  document.getElementById('reveal-loading').classList.remove('hidden');
+  document.getElementById('reveal-content').classList.add('hidden');
+  
+  setTimeout(()=>smoothTo('reveal'),300);
+
+  const prompt=`You are a storytelling AI creating a cinematic character profile for a self-discovery app with a Studio Ghibli / fantasy-novel aesthetic.
+
+User answers:
+- Name: ${name}
+- Main Goal: ${fields[0]||'Not specified'}
+- Current Challenge: ${fields[1]||'Not specified'}
+- Natural Strength: ${fields[2]||'Not specified'}
+- Motivation: ${fields[3]||'Not specified'}
+- Life Stage: ${fields[4]||'Not specified'}
+- Who they're becoming: ${fields[5]||'Not specified'}
+
+Generate a character profile in JSON with EXACTLY this structure (no markdown, no extra text, ONLY valid JSON):
+{
+  "chapter": "Creative arc name like 'The Builder Arc' or 'The Awakening Chapter'",
+  "quest": "One poetic sentence about their main goal",
+  "strength": "One word or short phrase",
+  "villain": "What is standing in their way, poetically",
+  "ability": "Their special power, named dramatically",
+  "theme": "Their story theme in 4-8 words",
+  "narrative": "A 2-3 sentence cinematic narrative about their journey, written in second person, poetic and inspiring",
+  "power_level": "A number 1-100 representing their current momentum",
+  "element": "One of: Earth, Fire, Water, Wind, Light, Storm",
+  "spirit_animal": "One emoji + one word (e.g. 🦋 Butterfly)"
+}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(b=>b.text||'').join('');
+    const clean=text.replace(/```json|```/g,'').trim();
+    const profile=JSON.parse(clean);
+    showProfile(name,profile);
+  }catch(err){
+    // Fallback
+    showProfile(name,{
+      chapter:'The Builder Arc',
+      quest:fields[0]||'To forge your own path through the unknown',
+      strength:fields[2]||'Resilience',
+      villain:fields[1]||'The fog of uncertainty',
+      ability:fields[2]||'Quiet Determination',
+      theme:'Growth Through Honest Becoming',
+      narrative:`You stand at the threshold of something remarkable. The path ahead is not yet clear, but the strength to walk it lives in you already. Every step forward writes a page of the story only you can tell.`,
+      power_level:72,
+      element:'Earth',
+      spirit_animal:'🌿 Sage'
+    });
+  }
+}
+
+function showProfile(name,p){
+  document.getElementById('reveal-loading').classList.add('hidden');
+  const el=document.getElementById('reveal-content');
+  
+  const pow=p.power_level||70;
+  const elColor={Earth:'#8BAF8B',Fire:'#D4956A',Water:'#7BA7C4',Wind:'#B8D4B8',Light:'#E8D4A0',Storm:'#9B8EC4'};
+  const col=elColor[p.element]||'#8BAF8B';
+
+  el.innerHTML=`
+    <div class="profile-header">
+      <div class="profile-chapter-badge">✦ ${p.chapter} ✦</div>
+      <h1 class="profile-name">${name}</h1>
+      <p class="profile-tagline">${p.spirit_animal} &nbsp;·&nbsp; Element: ${p.element}</p>
+    </div>
+
+    <div style="margin-bottom:1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:rgba(245,237,216,0.4)">Momentum Level</span>
+        <span style="font-family:'Lora',serif;font-size:1.1rem;color:${col}">${pow}/100</span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${pow}%;background:linear-gradient(90deg,${col},${col}AA);border-radius:100px;transition:width 1s ease;animation:bar-grow 1.5s ease both"></div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <div class="profile-stat">
+        <div class="stat-icon">🗡️</div>
+        <div class="stat-label">Main Quest</div>
+        <div class="stat-value">${p.quest}</div>
+      </div>
+      <div class="profile-stat">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-label">Special Ability</div>
+        <div class="stat-value">${p.ability}</div>
+      </div>
+      <div class="profile-stat">
+        <div class="stat-icon">💎</div>
+        <div class="stat-label">Primary Strength</div>
+        <div class="stat-value">${p.strength}</div>
+      </div>
+      <div class="profile-stat">
+        <div class="stat-icon">🌑</div>
+        <div class="stat-label">Current Villain</div>
+        <div class="stat-value">${p.villain}</div>
+      </div>
+    </div>
+
+    <div class="story-theme">
+      <div class="story-label">Story Theme</div>
+      <div class="story-value">${p.theme}</div>
+    </div>
+
+    <div class="narrative-section">
+      <div class="narrative-label">Your Narrative</div>
+      <p class="narrative-text">"${p.narrative}"</p>
+    </div>
+
+    <div class="card-actions">
+      <button class="action-btn primary-action" onclick="scrollToTop()">Start a new chapter →</button>
+      <button class="action-btn secondary-action" onclick="copyProfile('${name}','${p.chapter}','${p.theme}')">Copy my card ✦</button>
+    </div>
+  `;
+  
+  el.classList.remove('hidden');
+  
+  const btn=document.getElementById('analyze-btn');
+  btn.disabled=false;btn.textContent='Reveal my character arc →';
+}
+
+function scrollToTop(){
+  document.getElementById('questions').scrollIntoView({behavior:'smooth'});
+}
+
+function copyProfile(name,chapter,theme){
+  const text=`✦ ${name} — ${chapter}\n"${theme}"\n\nGenerated at Main Character`;
+  navigator.clipboard?.writeText(text).then(()=>alert('Profile copied!')).catch(()=>alert('Copy: '+text));
+}
+</script>
+</body>
+</html>
